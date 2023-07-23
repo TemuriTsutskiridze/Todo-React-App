@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 import { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 import HelmetHeader from "./components/HelmetHeader";
 import GlobalStyles from "./Globals/Globals";
@@ -14,10 +13,8 @@ export interface ITodo {
 }
 
 function App() {
-  const [checked, setChecked] = useState<boolean>(false);
   const [time, setTime] = useState<Date | null>(null);
   const [todos, setTodos] = useState<ITodo[]>([]);
-  const [input, setInput] = useState<string>("");
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
 
@@ -34,8 +31,8 @@ function App() {
       clearInterval(interval);
     };
   }, []);
-  // const [todos, setTodos] = useState<>([]);
-  console.log(typeof uuidv4());
+
+  console.log(todos);
   return (
     <>
       <HelmetHeader />
@@ -59,8 +56,15 @@ function App() {
           </TimeContainer>
 
           <TasksContainer>
-            <Input />
-            <Todo />
+            <Input setTodos={setTodos} todos={todos} />
+            {todos.map((todo) => (
+              <Todo
+                key={todo.id}
+                todo={todo}
+                setTodos={setTodos}
+                todos={todos}
+              />
+            ))}
           </TasksContainer>
         </TodoContainer>
       </Main>

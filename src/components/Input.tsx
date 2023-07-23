@@ -1,16 +1,47 @@
 import { styled } from "styled-components";
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-export default function Input() {
+import { ITodo } from "../App";
+
+type TIpuntProps = {
+  setTodos: (value: ITodo[]) => void;
+  todos: ITodo[];
+};
+
+export default function Input(props: TIpuntProps) {
+  const [checked, setChecked] = useState<boolean>(false);
+  const [input, setInput] = useState<string>("");
+
+  const addTodo = () => {
+    if (input !== "") {
+      const newTodos = [
+        { id: uuidv4(), todo: input, completed: checked },
+        ...props.todos,
+      ];
+      props.setTodos(newTodos);
+
+      setInput("");
+    }
+  };
   return (
     <InputContainer>
       <NoteContainer>
         <div>
-          <CheckBox type="checkbox"></CheckBox>
+          <CheckBox
+            type="checkbox"
+            checked={checked}
+            onChange={() => setChecked(!checked)}
+          ></CheckBox>
           <CustomCheckBox></CustomCheckBox>
         </div>
-        <TodoInput placeholder="Note"></TodoInput>
+        <TodoInput
+          placeholder="Note"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        ></TodoInput>
       </NoteContainer>
-      <Add></Add>
+      <Add onClick={addTodo}></Add>
     </InputContainer>
   );
 }

@@ -2,19 +2,38 @@ import { styled } from "styled-components";
 
 import { CheckBox } from "./Input";
 import { CustomCheckBox } from "./Input";
+import { ITodo } from "../App";
 
 import DeleteIcon from "../assets/delete.svg";
 
-export default function Todo() {
+interface TodoProps {
+  todo: ITodo;
+  setTodos: (value: ITodo[]) => void;
+  todos: ITodo[];
+}
+
+export default function Todo(props: TodoProps) {
+  console.log(props.todos);
   return (
     <TodoContainer>
       <InfoContainer>
-        <Task>Dinner</Task>
+        <Task>{props.todo.todo}</Task>
         <Time>Today at 8:00 PM</Time>
       </InfoContainer>
       <Buttons>
         <div>
-          <CheckBox type="checkbox"></CheckBox>
+          <CheckBox
+            type="checkbox"
+            checked={props.todo.completed}
+            onChange={() => {
+              const updatedTodos = props.todos.map((todo) =>
+                todo.id === props.todo.id
+                  ? { ...todo, completed: !todo.completed }
+                  : todo
+              );
+              props.setTodos(updatedTodos);
+            }}
+          ></CheckBox>
           <CustomCheckBox></CustomCheckBox>
         </div>
         <img src={DeleteIcon} alt="delete icon" style={{ cursor: "pointer" }} />
