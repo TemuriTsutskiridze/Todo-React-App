@@ -5,13 +5,7 @@ import HelmetHeader from "./components/HelmetHeader";
 import GlobalStyles from "./Globals/Globals";
 import Input from "./components/Input";
 import Todo from "./components/Todo";
-
-export interface ITodo {
-  id: string;
-  todo: string;
-  completed: boolean;
-  date: Date;
-}
+import { ITodo } from "./types";
 
 function App() {
   const [time, setTime] = useState<Date | null>(null);

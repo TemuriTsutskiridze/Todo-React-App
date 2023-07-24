@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { ITodo } from "../App";
+import { ITodo } from "../types";
 
 type TIpuntProps = {
   setTodos: (value: ITodo[]) => void;

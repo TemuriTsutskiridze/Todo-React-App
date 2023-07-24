@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 import { CheckBox } from "./Input";
 import { CustomCheckBox } from "./Input";
-import { ITodo } from "../App";
+import { ITodo } from "../types";
 
 import DeleteIcon from "../assets/delete.svg";
 import { isToday, isYesterday } from "date-fns";
