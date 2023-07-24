@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet";
 export default function HelmetHeader() {
   return (
     <Helmet>
+      <link rel="icon" type="image/svg+xml" href="/react.svg" />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link
         rel="preconnect"
