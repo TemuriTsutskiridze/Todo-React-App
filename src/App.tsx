@@ -15,6 +15,7 @@ export interface ITodo {
 function App() {
   const [time, setTime] = useState<Date | null>(null);
   const [todos, setTodos] = useState<ITodo[]>([]);
+  const [filter, setFilter] = useState<string>("All");
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
 
@@ -32,7 +33,15 @@ function App() {
     };
   }, []);
 
-  console.log(todos);
+  const FilteredTodos =
+    filter === "All"
+      ? todos
+      : filter === "Active"
+      ? todos.filter((todo) => todo.completed === false)
+      : filter === "Completed"
+      ? todos.filter((todo) => todo.completed === true)
+      : null;
+
   return (
     <>
       <HelmetHeader />
@@ -57,7 +66,7 @@ function App() {
 
           <TasksContainer>
             <Input setTodos={setTodos} todos={todos} />
-            {todos.map((todo) => (
+            {FilteredTodos?.map((todo) => (
               <Todo
                 key={todo.id}
                 todo={todo}
@@ -67,6 +76,12 @@ function App() {
             ))}
           </TasksContainer>
         </TodoContainer>
+
+        <FilterContainer>
+          <p onClick={() => setFilter("Active")}>Active</p>
+          <p onClick={() => setFilter("Completed")}>Completed</p>
+          <p onClick={() => setFilter("All")}>All</p>
+        </FilterContainer>
       </Main>
     </>
   );
@@ -129,6 +144,21 @@ const TasksContainer = styled.div`
   font-family: "Inter", sans-serif;
   font-weight: 400;
   line-height: normal;
+`;
+
+const FilterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  font-family: "Inter", sans-serif;
+  font-size: 2rem;
+  line-height: normal;
+  font-weight: 400;
+  color: gray;
+
+  & p {
+    cursor: pointer;
+  }
 `;
 
 export default App;

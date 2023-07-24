@@ -36,7 +36,17 @@ export default function Todo(props: TodoProps) {
           ></CheckBox>
           <CustomCheckBox></CustomCheckBox>
         </div>
-        <img src={DeleteIcon} alt="delete icon" style={{ cursor: "pointer" }} />
+        <img
+          src={DeleteIcon}
+          alt="delete icon"
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            const updatedTodos = props.todos.filter(
+              (todo) => todo.id !== props.todo.id
+            );
+            props.setTodos(updatedTodos);
+          }}
+        />
       </Buttons>
     </TodoContainer>
   );
