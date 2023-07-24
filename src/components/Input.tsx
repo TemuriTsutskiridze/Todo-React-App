@@ -15,11 +15,12 @@ export default function Input(props: TIpuntProps) {
 
   const addTodo = () => {
     if (input !== "") {
-      const newTodos = [
-        { id: uuidv4(), todo: input, completed: checked },
+      const updatedTodos = [
+        { id: uuidv4(), todo: input, completed: checked, date: new Date() },
         ...props.todos,
       ];
-      props.setTodos(newTodos);
+      localStorage.setItem("todos", JSON.stringify(updatedTodos));
+      props.setTodos(updatedTodos);
 
       setInput("");
     }

@@ -5,6 +5,7 @@ import { CustomCheckBox } from "./Input";
 import { ITodo } from "../App";
 
 import DeleteIcon from "../assets/delete.svg";
+import { isToday, isYesterday } from "date-fns";
 
 interface TodoProps {
   todo: ITodo;
@@ -13,12 +14,31 @@ interface TodoProps {
 }
 
 export default function Todo(props: TodoProps) {
-  console.log(props.todos);
+  console.log(typeof props.todo.date);
   return (
     <TodoContainer>
       <InfoContainer>
         <Task>{props.todo.todo}</Task>
-        <Time>Today at 8:00 PM</Time>
+        <Time>
+          {isToday(new Date(props.todo.date))
+            ? "Today"
+            : isYesterday(new Date(props.todo.date))
+            ? "Yesterday"
+            : new Date(props.todo.date).getDate() +
+              " " +
+              new Date(props.todo.date).toLocaleString("en-US", {
+                month: "short",
+              })}{" "}
+          at{" "}
+          {`${new Date(props.todo.date).getHours() ?? "00"}:${
+            new Date(props.todo.date).getMinutes() ?? "00"
+          }${
+            new Date(props.todo.date).getHours() !== undefined &&
+            new Date(props.todo.date).getHours() >= 12
+              ? "PM"
+              : "AM"
+          }`}
+        </Time>
       </InfoContainer>
       <Buttons>
         <div>
@@ -31,6 +51,7 @@ export default function Todo(props: TodoProps) {
                   ? { ...todo, completed: !todo.completed }
                   : todo
               );
+              localStorage.setItem("todos", JSON.stringify(updatedTodos));
               props.setTodos(updatedTodos);
             }}
           ></CheckBox>
@@ -44,6 +65,7 @@ export default function Todo(props: TodoProps) {
             const updatedTodos = props.todos.filter(
               (todo) => todo.id !== props.todo.id
             );
+            localStorage.setItem("todos", JSON.stringify(updatedTodos));
             props.setTodos(updatedTodos);
           }}
         />

@@ -10,11 +10,14 @@ export interface ITodo {
   id: string;
   todo: string;
   completed: boolean;
+  date: Date;
 }
 
 function App() {
   const [time, setTime] = useState<Date | null>(null);
-  const [todos, setTodos] = useState<ITodo[]>([]);
+  const [todos, setTodos] = useState<ITodo[]>(
+    JSON.parse(localStorage.getItem("todos") ?? "[]")
+  );
   const [filter, setFilter] = useState<string>("All");
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
@@ -75,13 +78,12 @@ function App() {
               />
             ))}
           </TasksContainer>
+          <FilterContainer>
+            <p onClick={() => setFilter("Active")}>Active</p>
+            <p onClick={() => setFilter("Completed")}>Completed</p>
+            <p onClick={() => setFilter("All")}>All</p>
+          </FilterContainer>
         </TodoContainer>
-
-        <FilterContainer>
-          <p onClick={() => setFilter("Active")}>Active</p>
-          <p onClick={() => setFilter("Completed")}>Completed</p>
-          <p onClick={() => setFilter("All")}>All</p>
-        </FilterContainer>
       </Main>
     </>
   );
@@ -100,6 +102,7 @@ const Main = styled.main`
   @media only screen and (min-width: 60em) {
     flex-direction: row;
     padding: 7rem 0;
+    gap: 10rem;
   }
 `;
 
@@ -113,6 +116,7 @@ const Title = styled.h1`
 const TodoContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 43rem;
   border-radius: 10px;
   overflow: hidden;
@@ -155,6 +159,7 @@ const FilterContainer = styled.div`
   line-height: normal;
   font-weight: 400;
   color: gray;
+  margin-top: 2rem;
 
   & p {
     cursor: pointer;
