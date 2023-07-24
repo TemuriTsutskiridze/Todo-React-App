@@ -40,6 +40,11 @@ export default function Input(props: TIpuntProps) {
           placeholder="Note"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              addTodo();
+            }
+          }}
         ></TodoInput>
       </NoteContainer>
       <Add onClick={addTodo}></Add>
