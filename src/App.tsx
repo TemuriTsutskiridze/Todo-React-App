@@ -53,7 +53,11 @@ function App() {
               {daysOfWeek[time?.getDay() ?? "0"]} {time?.getDate()}
             </p>
             <p>
-              {`${time?.getHours() ?? "00"}:${time?.getMinutes() ?? "00"}${
+              {`${(time?.getHours() ?? "00").toString().padStart(2, "0")}:${(
+                time?.getMinutes() ?? "00"
+              )
+                .toString()
+                .padStart(2, "0")}${
                 time?.getHours() !== undefined && time?.getHours() >= 12
                   ? "PM"
                   : "AM"
